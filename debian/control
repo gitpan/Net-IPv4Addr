@@ -1,0 +1,12 @@
+Source: libnetwork-ipv4addr-perl
+Section: interpreter
+Priority: optional
+Maintainer: Bernd Eckenfels <ecki@lina.inka.de>
+Standards-Version: 2.5.1
+
+Package: libnetwork-ipv4addr-perl
+Architecture: all
+Depends: ${perl:Depends}
+Description: The Net::IPv4Addr perl module API and ipv4calc script
+ ipv4calc can be used to calculate netmask, broadcast and netaddress of
+ an IPv4 (Internet) address.
