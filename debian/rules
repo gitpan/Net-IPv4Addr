@@ -31,7 +31,7 @@ clean:
 	rm -f build-stamp install-stamp
 	# Add here commands to clean up after the build process.
 	-$(MAKE) clean
-	-rm -rf blib/ Makefile.old
+	-rm -rf blib/ Makefile.old Makefile
 	dh_clean
 
 install: install-stamp

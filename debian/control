@@ -1,8 +1,8 @@
 Source: libnetwork-ipv4addr-perl
-Section: interpreter
+Section: interpreters
 Priority: optional
-Maintainer: Bernd Eckenfels <ecki@lina.inka.de>
-Standards-Version: 2.5.1
+Maintainer: Bernd Eckenfels <ecki@debian.org>
+Standards-Version: 3.0.1
 
 Package: libnetwork-ipv4addr-perl
 Architecture: all

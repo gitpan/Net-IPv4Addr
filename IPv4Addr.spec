@@ -1,6 +1,6 @@
 Summary: Perl modules to manipulates Ipv4 addresses.
 Name: Net-IPv4Addr
-Version: 0.09
+Version: 0.10
 Release: 1i
 Source: http://iNDev.iNsu.COM/sources/%{name}-%{version}.tar.gz
 Copyright: GPL or Artistic License
@@ -9,8 +9,6 @@ Prefix: /usr
 URL: http://iNDev.iNsu.COM/IPv4Addr/
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root
 BuildArchitectures: noarch
-Requires: perl 
-Provides: perl(Net::IPv4Addr) = %{version}
 Obsoletes: Network-IPv4Addr
 
 %description
@@ -22,9 +20,7 @@ see check if a given address is in a specific network.
 
 %prep
 %setup -q
-# Update all path to the perl interpreter
-find -type f -exec sh -c 'if head -c 100 $0 | grep -q "^#!.*perl"; then \
-		perl -p -i -e "s|^#!.*perl|#!/usr/bin/perl|g" $0; fi' {} \;
+%fix_perl_path
 
 %build
 perl Makefile.PL 
@@ -33,28 +29,10 @@ make test
 
 %install
 rm -fr $RPM_BUILD_ROOT
-eval `perl '-V:installarchlib'`
-mkdir -p $RPM_BUILD_ROOT/$installarchlib
-make 	PREFIX=$RPM_BUILD_ROOT/usr \
-	INSTALLMAN1DIR=$RPM_BUILD_ROOT/usr/man/man1 \
-   	INSTALLMAN3DIR=$RPM_BUILD_ROOT/`dirname $installarchlib`/man/man3 \
-   	pure_install
+%perl_make_install
 
-# Fix packing list
-for packlist in `find $RPM_BUILD_ROOT -name '.packlist'`; do
-	mv $packlist $packlist.old
-	sed -e "s|$RPM_BUILD_ROOT||g" < $packlist.old > $packlist
-	rm -f $packlist.old
-done
-
-# Make a file list
-find $RPM_BUILD_ROOT -type d -path '*/usr/lib/perl5/site_perl/5.005/*' \
-    -not -path '*/auto' -not -path "*/*-linux" | \
-    sed -e "s!$RPM_BUILD_ROOT!%dir !" > %{name}-file-list
-    
-find $RPM_BUILD_ROOT -type f -o -type l -not -name "perllocal.pod" | \
-	sed -e "s|$RPM_BUILD_ROOT||" \
-	    -e 's!\(.*/man/man\|.*\.pod$\)!%doc \1!' >> %{name}-file-list
+BuildDirList > %pkg_file_list
+BuildFileList >> %pkg_file_list
 
 %clean
 rm -fr $RPM_BUILD_ROOT
@@ -64,6 +42,11 @@ rm -fr $RPM_BUILD_ROOT
 %doc README ChangeLog
 
 %changelog
+* Tue Aug 01 2000  Francis J. Lacoste <francis.lacoste@iNsu.COM> 
+  [0.10-1i]
+- Updated to version 0.10.
+- Updated spec file to use new macros.
+
 * Wed May 03 2000  Francis J. Lacoste <francis.lacoste@iNsu.COM> 
   [0.09-1i]
 - Updated to version 0.09.

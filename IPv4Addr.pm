@@ -1,8 +1,8 @@
 #    IPv4Addr.pm - Perl module to manipulate IPv4 addresses.
 #
-#    Author: Francis J. Lacoste <francis@Contre.COM>
+#    Author: Francis J. Lacoste <francis.lacoste@iNsu.COM>
 #
-#    Copyright (C) 1999 Francis J. Lacoste, iNsu Innovations Inc.
+#    Copyright (C) 1999, 2000 iNsu Innovations Inc.
 #
 #    This program is free software; you can redistribute it and/or modify
 #    it under the terms as perl itself.
@@ -22,7 +22,7 @@ BEGIN {
     @EXPORT = qw();
 
     %EXPORT_TAGS = (
-		    all => [qw{ ipv4_parse	    ipv4_checkip
+		    all => [qw{ ipv4_parse	ipv4_chkip
 				ipv4_network    ipv4_broadcast
 				ipv4_cidr2msk   ipv4_msk2cidr
 				ipv4_in_network ipv4_dflt_netmask
@@ -33,7 +33,7 @@ BEGIN {
 
     Exporter::export_ok_tags('all');
 
-    $VERSION = '0.09';
+    $VERSION = '0.10';
 }
 
 # Preloaded methods go here.
@@ -133,7 +133,7 @@ sub ipv4_network($;$) {
   my ($ip,$cidr) = ipv4_parse( $_[0], $_[1] );
 
   # If only an host is given, use the default netmask
-  unless ($cidr) {
+  unless (defined $cidr) {
     $cidr = ipv4_msk2cidr( ipv4_dflt_netmask($ip) );
   }
   my $u32 = unpack "N", pack "CCCC", split /\./, $ip;
@@ -150,7 +150,7 @@ sub ipv4_broadcast($;$) {
   my ($ip,$cidr) = ipv4_parse( $_[0], $_[1] );
 
   # If only an host is given, use the default netmask
-  unless ($cidr) {
+  unless (defined $cidr) {
     $cidr = ipv4_msk2cidr( ipv4_dflt_netmask($ip) );
   }
 
@@ -175,11 +175,13 @@ sub ipv4_in_network($$;$$) {
   }
 
   # Check for magic addresses.
-  return 1 if $ip1 eq "255.255.255.255" or $ip1 eq "0.0.0.0";
-  return 1 if $ip2 eq "255.255.255.255" or $ip2 eq "0.0.0.0";
+  return 1 if ($ip1 eq "255.255.255.255" or $ip1 eq "0.0.0.0")
+         and !defined $cidr1;
+  return 1 if ($ip2 eq "255.255.255.255" or $ip2 eq "0.0.0.0")
+         and !defined $cidr2;
 
   # Case where first argument is really an host
-  return $ip1 eq $ip2 unless ($cidr1);
+  return $ip1 eq $ip2 unless (defined $cidr1);
 
   # Case where second argument is an host
   if ( not defined $cidr2) {
@@ -365,11 +367,11 @@ doesn't like your input.
 
 =head1 AUTHOR
 
-Francis J. Lacoste francis.lacoste@iNsu.COM
+Francis J. Lacoste <francis.lacoste@iNsu.COM>
 
 =head1 COPYRIGHT
 
-Copyright (c) 1999 Francis J. Lacoste and iNsu Innovations Inc. 
+Copyright (c) 1999, 2000 iNsu Innovations Inc.
 All rights reserved.
 
 This program is free software; you can redistribute it and/or modify
