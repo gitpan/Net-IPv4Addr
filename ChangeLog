@@ -1,3 +1,12 @@
+1999-12-15  Francis J. Lacoste  <francis.lacoste@iNsu.COM>
+
+	* Tag: IPV4ADDR_0_08
+
+	* IPv4Addr.pm: Moved require statement inside BEGIN to
+		       fix problems with ipv4calc.
+		       
+		       Incremented version number to 0.08.
+
 1999-10-19  Francis J. Lacoste  <francis.lacoste@iNsu.COM>
 
 	TAG: IPV4ADDR_0_07

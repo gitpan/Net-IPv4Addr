@@ -1,8 +1,8 @@
 Summary: Perl modules to manipulates Ipv4 addresses.
 Name: Net-IPv4Addr
-Version: 0.07
+Version: 0.08
 Release: 1i
-Source: http://iNDev.iNsu.COM/IPv4Addr/%{name}-%{version}.tar.gz
+Source: http://iNDev.iNsu.COM/sources/%{name}-%{version}.tar.gz
 Copyright: GPL or Artistic License
 Group: Development/Libraries/Perl
 Prefix: /usr
@@ -10,6 +10,7 @@ URL: http://iNDev.iNsu.COM/IPv4Addr/
 BuildRoot: /var/tmp/%{name}-%{version}
 BuildArchitectures: noarch
 Requires: perl 
+Provides: perl(Net::IPv4Addr) = %{version}
 Obsoletes: Network-IPv4Addr
 
 %description
@@ -60,8 +61,14 @@ rm -fr $RPM_BUILD_ROOT
 %doc README ChangeLog
 
 %changelog
+* Wed Dec 15 1999  Francis J. Lacoste <francis.lacoste@iNsu.COM> 
+  [0.08-1i]
+- Updated to version 0.08.
+- Added perl(Net::IPv4Addr) to list of Provides.
+- Fixed Source URL.
+
 * Tue Oct 19 1999  Francis J. Lacoste <francis.lacoste@iNsu.COM> 
-  [0.06-1i]
+  [0.07-1i]
 - Updated to version 0.07
 
 * Tue Oct 19 1999  Francis J. Lacoste <francis.lacoste@iNsu.COM> 

@@ -13,10 +13,10 @@ package Net::IPv4Addr;
 use strict;
 use vars qw($VERSION @ISA @EXPORT @EXPORT_OK %EXPORT_TAGS);
 
-require Exporter;
-require AutoLoader;
-
 BEGIN {
+    require Exporter;
+    require AutoLoader;
+
     @ISA = qw(Exporter AutoLoader);
 
     @EXPORT = qw();
@@ -33,7 +33,7 @@ BEGIN {
 
     Exporter::export_ok_tags('all');
 
-    $VERSION = '0.07';
+    $VERSION = '0.08';
 }
 
 # Preloaded methods go here.
