@@ -33,7 +33,7 @@ BEGIN {
 
     Exporter::export_ok_tags('all');
 
-    $VERSION = '0.08';
+    $VERSION = '0.09';
 }
 
 # Preloaded methods go here.
@@ -184,12 +184,12 @@ sub ipv4_in_network($$;$$) {
   # Case where second argument is an host
   if ( not defined $cidr2) {
       return ipv4_network( $ip1, $cidr1) eq ipv4_network( $ip2, $cidr1 );
-  } elsif ( $cidr2 > $cidr1 ) {
-      # Netmask 2 is more specific than netmask 1
-      return ipv4_network( $ip1, $cidr2) eq ipv4_network( $ip2, $cidr2);
+  } elsif ( $cidr2 >= $cidr1 ) {
+      # Network 2 is smaller or equal than network 1
+      return ipv4_network( $ip1, $cidr1 ) eq ipv4_network( $ip2, $cidr1 );
   } else {
-      # Netmask 1 is more specific than netmask 2
-      return ipv4_network( $ip1, $cidr1) eq ipv4_network( $ip2, $cidr1);
+      # Network 2 is bigger, so can't be wholly contained.
+      return 0;
   }
 }
 # Autoload methods go after =cut, and are processed by the autosplit program.
